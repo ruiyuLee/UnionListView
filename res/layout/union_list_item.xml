@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dip"
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@id/ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="#30FF0000"
+        android:gravity="center"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@id/Num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#10000000"
+        android:padding="2.5dip"
+        android:text="45万+"
+        android:textColor="@android:color/white"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/Num"
+        android:background="#10000000"
+        android:gravity="center_vertical"
+        android:paddingLeft="4dip"
+        android:text="@string/Title"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@id/Press"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/translucence_background"
+        android:clickable="true"
+        android:visibility="visible" />
+
+</RelativeLayout>

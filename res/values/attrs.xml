@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- These are the standard attributes that make up a complete theme. -->
+    <declare-styleable name="Theme">
+
+        <!-- ============== -->
+        <!-- Generic styles -->
+        <!-- ============== -->
+        <eat-comment />
+
+        <!-- Default color of foreground imagery. -->
+        <attr name="colorLee" format="color" />
+    </declare-styleable>
+    <declare-styleable name="CollectionView">
+        <attr name="childView" format="reference" />
+        <attr name="childCount" format="integer" />
+    </declare-styleable>
+
+</resources>
