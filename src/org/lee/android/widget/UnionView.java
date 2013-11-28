@@ -1,9 +1,9 @@
 package org.lee.android.widget;
 
 import org.lee.android.simples.unionlist.mode.Unit;
-import org.lee.android.simples.unionlist.mode.UnionAdapter.OnItemChildClickListener;
 import org.lee.android.simples.unionlist.view.UnionChildView;
 import org.lee.android.utils.Log;
+import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,11 +15,11 @@ import org.lee.android.simples.unionlist.R;
 
 public class UnionView extends LinearLayout {
 
-	private LayoutParams param = new LayoutParams(LayoutParams.MATCH_PARENT,
+	protected LayoutParams param = new LayoutParams(LayoutParams.MATCH_PARENT,
 			LayoutParams.MATCH_PARENT);
 	private int mChildCount = 2;
 	private Unit mUnit;
-	private int position;
+	protected int position;
 	private boolean mLoopMode = false;
 
 	public UnionView(Context context) {
@@ -43,8 +43,6 @@ public class UnionView extends LinearLayout {
 	}
 
 	private void init() {
-		setPadding(4, 4, 4, 4);
-		setOrientation(LinearLayout.HORIZONTAL);
 		param.weight = 1;
 
 		attachViews();
@@ -60,8 +58,7 @@ public class UnionView extends LinearLayout {
 
 	private void attachViews() {
 		for (int i = 0; i < mChildCount; i++) {
-			UnionChildView itemView = new UnionChildView(getContext(),
-					0, i);
+			UnionChildView itemView = new UnionChildView(getContext(), 0, i);
 			itemView.setId(i);
 			addView(itemView, param);
 		}

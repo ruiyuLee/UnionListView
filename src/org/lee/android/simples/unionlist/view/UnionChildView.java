@@ -2,8 +2,8 @@ package org.lee.android.simples.unionlist.view;
 
 import org.lee.android.simples.unionlist.R;
 import org.lee.android.simples.unionlist.mode.Bean;
-import org.lee.android.simples.unionlist.mode.UnionAdapter.OnItemChildClickListener;
 import org.lee.android.volley.VolleyLoader;
+import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
 
 import android.content.Context;
 import android.util.AttributeSet;
