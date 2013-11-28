@@ -31,8 +31,6 @@ public class UnionView extends LinearLayout {
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.CollectionView);
-		int childViewId = a.getResourceId(R.styleable.CollectionView_childView,
-				R.layout.union_list_item);
 		a.recycle();
 		init();
 	}
@@ -83,6 +81,12 @@ public class UnionView extends LinearLayout {
 
 	private int[] mViewsIds;
 
+	/**
+	 * Can somebody register a callback to be invoked when this view is clicked.
+	 * If this view is not clickable, it becomes clickable.
+	 * 
+	 * @param viewsIds
+	 */
 	public void registerClickableViews(int... viewsIds) {
 		mViewsIds = viewsIds;
 		attachEvent();
@@ -106,10 +110,20 @@ public class UnionView extends LinearLayout {
 
 	private void attachEventToView(View view, int childPosition) {
 		int length = mViewsIds.length;
-		for (int j = 0; j < length; j++) {
-			View v = view.findViewById(mViewsIds[j]);
-			v.setTag(v.getId(), childPosition);
-			v.setOnClickListener(ClickEvent);
+		if (mLoopMode && length > 1) {
+			for (int j = 0; j < length; j++) {
+				View v = view.findViewById(mViewsIds[j]);
+				PositionInfo pi = new PositionInfo(childPosition, j);
+				v.setTag(v.getId(), pi);
+				v.setOnClickListener(ClickEvent);
+			}
+		} else {
+			for (int j = 0; j < length; j++) {
+				View v = view.findViewById(mViewsIds[j]);
+				PositionInfo pi = new PositionInfo(childPosition, -1);
+				v.setTag(v.getId(), pi);
+				v.setOnClickListener(ClickEvent);
+			}
 		}
 	}
 
@@ -118,14 +132,15 @@ public class UnionView extends LinearLayout {
 		@Override
 		public void onClick(View v) {
 			if (mChildEvent != null) {
-				int childPosition = -1;
+				PositionInfo positionInfo = new PositionInfo(-1, -1);
 				Object tag = v.getTag(v.getId());
-				if (tag != null && tag instanceof Integer) {
-					childPosition = ((Integer) tag).intValue();
+				if (tag != null && tag instanceof PositionInfo) {
+					positionInfo = ((PositionInfo) tag);
 				} else {
 					Log.anchor("ERROR");
 				}
-				mChildEvent.onItemChildClick(v, position, childPosition,
+				mChildEvent.onItemChildClick(v, position,
+						positionInfo.position, positionInfo.grandchild,
 						v.getId());
 			}
 		}
@@ -135,6 +150,16 @@ public class UnionView extends LinearLayout {
 
 	public void setOnItemChildClickListener(OnItemChildClickListener l) {
 		mChildEvent = l;
+	}
+
+	private class PositionInfo {
+		private int position;
+		private int grandchild;
+
+		PositionInfo(int position, int grandchild) {
+			this.position = position;
+			this.grandchild = grandchild;
+		}
 	}
 
 }

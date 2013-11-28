@@ -7,7 +7,6 @@ import org.lee.android.simples.unionlist.mode.Bean;
 import org.lee.android.simples.unionlist.mode.Unit;
 import org.lee.android.simples.unionlist.view.TwoUnionAdapter;
 import org.lee.android.utils.Log;
-import org.lee.android.widget.UnionAdapter;
 import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
 import org.lee.data.preset.ArrayData;
 
@@ -51,8 +50,8 @@ public class UnionListFragment extends Fragment {
 		container = (ViewGroup) inflater.inflate(R.layout.activity_list, null);
 		listView = (ListView) container.findViewById(R.id.ListView);
 		mAdapter = new TwoUnionAdapter(getActivity(), getData());
-		addOnItemChildClickListener();
 		listView.setAdapter(mAdapter);
+		addOnItemChildClickListener();
 		return container;
 	}
 
@@ -95,8 +94,9 @@ public class UnionListFragment extends Fragment {
 
 			@Override
 			public void onItemChildClick(View view, int position,
-					int childPosition, long id) {
-				Log.anchor(position + " - " + childPosition);
+					int childPosition, int grandchild, long id) {
+				Log.anchor(position + " - " + childPosition + " - "
+						+ grandchild);
 			}
 		});
 	}

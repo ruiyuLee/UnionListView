@@ -40,7 +40,7 @@ public class TwoUnionAdapter extends UnionAdapter {
 	public UnionView createUnionView() {
 		UnionView unionView = new UnionView(context);
 		unionView.setLoopMode(true);
-		unionView.registerClickableViews(R.id.Press);
+		unionView.registerClickableViews(R.id.Press, R.id.Close);
 		return unionView;
 	}
 

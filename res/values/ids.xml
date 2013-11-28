@@ -23,5 +23,6 @@
     <item name="ImageView" type="id"/>
     <item name="Num" type="id"/>
     <item name="Press" type="id"/>
+    <item name="Close" type="id"/>
 
 </resources>

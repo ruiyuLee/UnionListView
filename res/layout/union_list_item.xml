@@ -22,9 +22,8 @@
         android:layout_alignParentBottom="true"
         android:background="#10000000"
         android:padding="2.5dip"
-        android:text="45万+"
         android:textColor="@android:color/white"
-        android:textSize="10sp" />
+        android:textSize="@dimen/Num_text_size" />
 
     <TextView
         android:id="@id/Title"
@@ -45,5 +44,16 @@
         android:background="@drawable/translucence_background"
         android:clickable="true"
         android:visibility="visible" />
+
+    <ImageView
+        android:id="@id/Close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/translucence_background"
+        android:contentDescription="@string/Title"
+        android:paddingBottom="6dip"
+        android:paddingLeft="6dip"
+        android:src="@android:drawable/presence_busy" />
 
 </RelativeLayout>

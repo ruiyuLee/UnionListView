@@ -3,7 +3,6 @@ package org.lee.android.simples.unionlist.view;
 import org.lee.android.simples.unionlist.R;
 import org.lee.android.simples.unionlist.mode.Bean;
 import org.lee.android.volley.VolleyLoader;
-import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -21,10 +20,9 @@ public class UnionChildView extends LinearLayout {
 	private TextView mNumText;
 	private Bean mItem;
 	private int ParentPosition;
-	private int ChildPosition;
+	private int Position;
 
-	public UnionChildView(Context context, int parentPosition,
-			int childPosition) {
+	public UnionChildView(Context context, int parentPosition, int childPosition) {
 		super(context);
 		setPosition(parentPosition, childPosition);
 		attachViews();
@@ -51,7 +49,7 @@ public class UnionChildView extends LinearLayout {
 
 	public void setPosition(int parentPosition, int childPosition) {
 		ParentPosition = parentPosition;
-		this.ChildPosition = childPosition;
+		this.Position = childPosition;
 	}
 
 	public int getParentPosition() {
@@ -59,24 +57,7 @@ public class UnionChildView extends LinearLayout {
 	}
 
 	public int getPosition() {
-		return ChildPosition;
-	}
-
-	private OnClickListener Event = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			mChildEvent.onItemChildClick(v, getParentPosition(), getPosition(),
-					v.getId());
-		}
-	};
-
-	private OnItemChildClickListener mChildEvent;
-
-	public void setOnItemChildClickListener(OnItemChildClickListener event) {
-		mChildEvent = event;
-		findViewById(R.id.Press).setOnClickListener(
-				event == null ? null : Event);
+		return Position;
 	}
 
 	public void setItem(Bean item) {
