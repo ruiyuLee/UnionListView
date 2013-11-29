@@ -21,6 +21,15 @@
 
 
 
+## Version:0.7.0
+Date:2013/11/29
+
+* 抽象UnionView.java；
+* 分别建立1/2/3个单元进行测试Widget的扩展性；
+
+
+
+
 ## Version:0.5.0
 Date:2013/11/28
 
