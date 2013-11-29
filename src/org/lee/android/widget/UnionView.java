@@ -1,24 +1,19 @@
 package org.lee.android.widget;
 
-import org.lee.android.simples.unionlist.mode.Unit;
-import org.lee.android.simples.unionlist.view.UnionChildView;
-import org.lee.android.utils.Log;
 import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
 
 import android.content.Context;
-import android.content.res.TypedArray;
+import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import org.lee.android.simples.unionlist.R;
+public abstract class UnionView<T extends Object> extends LinearLayout {
 
-public class UnionView extends LinearLayout {
-
-	protected LayoutParams param = new LayoutParams(LayoutParams.MATCH_PARENT,
+	private LayoutParams param = new LayoutParams(LayoutParams.MATCH_PARENT,
 			LayoutParams.MATCH_PARENT);
-	private int mChildCount = 2;
-	private Unit mUnit;
+	private int mChildCount = 1;
 	protected int position;
 	private boolean mLoopMode = false;
 
@@ -27,11 +22,17 @@ public class UnionView extends LinearLayout {
 		init();
 	}
 
+	public UnionView(Context context, int childCount) {
+		super(context);
+		init();
+		setChildCount(childCount);
+	}
+
 	public UnionView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.CollectionView);
-		a.recycle();
+		// TypedArray a = context.obtainStyledAttributes(attrs,
+		// R.styleable.CollectionView);
+		// a.recycle();
 		init();
 	}
 
@@ -42,42 +43,51 @@ public class UnionView extends LinearLayout {
 
 	private void init() {
 		param.weight = 1;
-
-		attachViews();
 	}
 
+	public void setChildCount(int childCount) {
+		mChildCount = childCount;
+	}
+
+	public void orderXmlItemView(int childLayoutId) {
+		attachViews(childLayoutId);
+	}
+
+	/**
+	 * It's important,
+	 * 
+	 * @param loop
+	 *            It must be true, if your item view has more(2+) child views,
+	 *            and the are same. Default false.
+	 */
 	public void setLoopMode(boolean loop) {
 		mLoopMode = loop;
 	}
 
-	public Unit getUnit() {
-		return mUnit;
-	}
-
-	private void attachViews() {
+	private void attachViews(int layoutId) {
 		for (int i = 0; i < mChildCount; i++) {
-			UnionChildView itemView = new UnionChildView(getContext(), 0, i);
-			itemView.setId(i);
-			addView(itemView, param);
+			View v = LayoutInflater.from(getContext()).inflate(layoutId, null);
+			v.setId(i);
+			addView(v, param);
 		}
 	}
 
-	public void attachData(Unit unit) {
-		mUnit = unit;
-		position = unit.position;
+	public void attachData(int position, T... beans) {
+		this.position = position;
 
-		int length = unit.length();
+		int length = beans.length;
 		for (int i = 0; i < length; i++) {
-			UnionChildView childView = (UnionChildView) getChildAt(i);
-			if (unit.Children[i] == null) {
-				childView.gone();
+			View cv = getChildAt(i);
+			if (beans[i] == null) {
+				cv.setVisibility(View.GONE);
 				continue;
 			}
-			childView.setPosition(position, i);
-			childView.visible();
-			childView.setItem(unit.Children[i]);
+			cv.setVisibility(View.VISIBLE);
+			setItem(cv, beans[i]);
 		}
 	}
+
+	protected abstract void setItem(View v, T bean);
 
 	private int[] mViewsIds;
 
@@ -86,6 +96,7 @@ public class UnionView extends LinearLayout {
 	 * If this view is not clickable, it becomes clickable.
 	 * 
 	 * @param viewsIds
+	 *            The id to register a callback for.
 	 */
 	public void registerClickableViews(int... viewsIds) {
 		mViewsIds = viewsIds;
@@ -113,6 +124,11 @@ public class UnionView extends LinearLayout {
 		if (mLoopMode && length > 1) {
 			for (int j = 0; j < length; j++) {
 				View v = view.findViewById(mViewsIds[j]);
+				if (v == null) {
+					throw new Resources.NotFoundException(
+							"Error: No resource found that matches the given name (at 'id' with value '"
+									+ mViewsIds[j] + "').");
+				}
 				PositionInfo pi = new PositionInfo(childPosition, j);
 				v.setTag(v.getId(), pi);
 				v.setOnClickListener(ClickEvent);
@@ -120,6 +136,11 @@ public class UnionView extends LinearLayout {
 		} else {
 			for (int j = 0; j < length; j++) {
 				View v = view.findViewById(mViewsIds[j]);
+				if (v == null) {
+					throw new Resources.NotFoundException(
+							"Error: No resource found that matches the given name (at 'id' with value '"
+									+ mViewsIds[j] + "').");
+				}
 				PositionInfo pi = new PositionInfo(childPosition, -1);
 				v.setTag(v.getId(), pi);
 				v.setOnClickListener(ClickEvent);
@@ -129,15 +150,15 @@ public class UnionView extends LinearLayout {
 
 	private OnClickListener ClickEvent = new OnClickListener() {
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public void onClick(View v) {
 			if (mChildEvent != null) {
 				PositionInfo positionInfo = new PositionInfo(-1, -1);
 				Object tag = v.getTag(v.getId());
-				if (tag != null && tag instanceof PositionInfo) {
-					positionInfo = ((PositionInfo) tag);
+				if (tag != null && tag instanceof UnionView.PositionInfo) {
+					positionInfo = ((UnionView.PositionInfo) tag);
 				} else {
-					Log.anchor("ERROR");
 				}
 				mChildEvent.onItemChildClick(v, position,
 						positionInfo.position, positionInfo.grandchild,
@@ -148,8 +169,15 @@ public class UnionView extends LinearLayout {
 
 	private OnItemChildClickListener mChildEvent;
 
-	public void setOnItemChildClickListener(OnItemChildClickListener l) {
-		mChildEvent = l;
+	/**
+	 * Register a callback to be invoked when an item in this AdapterView has
+	 * been clicked.
+	 * 
+	 * @param listener
+	 *            The callback that will be invoked.
+	 */
+	public void setOnItemChildClickListener(OnItemChildClickListener listener) {
+		mChildEvent = listener;
 	}
 
 	private class PositionInfo {

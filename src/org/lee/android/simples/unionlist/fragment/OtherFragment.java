@@ -32,7 +32,7 @@ public class OtherFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		container = (ViewGroup) inflater
-				.inflate(R.layout.union_list_item, null);
+				.inflate(R.layout.union_list_child_view, null);
 		return container;
 	}
 

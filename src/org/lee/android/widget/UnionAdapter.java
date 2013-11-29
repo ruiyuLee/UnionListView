@@ -13,11 +13,11 @@ public abstract class UnionAdapter extends BaseAdapter {
 	@Deprecated
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			UnionView unionView = createUnionView();
+			UnionView<?> unionView = createUnionView();
 			unionView.setOnItemChildClickListener(mChildEvent);
 			convertView = unionView;
 		}
-		return getUnionView(position, (UnionView) convertView, parent);
+		return getUnionView(position, (UnionView<?>) convertView, parent);
 	}
 
 	/**
@@ -26,18 +26,22 @@ public abstract class UnionAdapter extends BaseAdapter {
 	 * 
 	 * @return UnionView
 	 */
-	public abstract UnionView createUnionView();
+	public abstract UnionView<?> createUnionView();
 
 	/**
-	 * Get the item view.
+	 * Get the item view.<br>
+	 * Get a View that displays the data at the specified position in the data
+	 * set. You can either create a View manually or inflate it from an XML
+	 * layout file. When the View is inflated, the parent View (GridView,
+	 * ListView...) will apply default layout parameters.
 	 * 
 	 * @param position
 	 * @param convertView
 	 * @param parent
 	 * @return
 	 */
-	public abstract UnionView getUnionView(int position, UnionView convertView,
-			ViewGroup parent);
+	public abstract UnionView<?> getUnionView(int position,
+			UnionView<?> convertView, ViewGroup parent);
 
 	private OnItemChildClickListener mChildEvent;
 
@@ -59,6 +63,11 @@ public abstract class UnionAdapter extends BaseAdapter {
 	 */
 	public interface OnItemChildClickListener {
 		/**
+		 * Callback method to be invoked when an item in this AdapterView has
+		 * been clicked.
+		 * <p>
+		 * Implementers can call getItemAtPosition(position) if they need to
+		 * access the data associated with the selected item.
 		 * 
 		 * @param view
 		 *            the click view.

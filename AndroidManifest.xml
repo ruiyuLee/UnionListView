@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="org.lee.android.simples.unionlist.activity.ViewPagerActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

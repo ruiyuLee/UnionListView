@@ -73,15 +73,17 @@ public class UnionListFragment extends Fragment {
 			}
 			String url = ArrayData.arraysUrls[num++];
 			Unit unit;
-			if (i % 3 == 0) {
+			if (i % 3 == 2) {
 				Bean item1 = new Bean(title, "46万+", url);
 				Bean item2 = new Bean(title, "52万+",
 						ArrayData.arraysUrls[num++]);
-				unit = new Unit(item1, item2);
+				Bean item3 = new Bean(title, "76万+",
+						ArrayData.arraysUrls[num++]);
+				unit = new Unit(item1, item2, item3);
 				unit.position = i;
 			} else {
 				Bean item1 = new Bean(title, "38万+", url);
-				unit = new Unit(item1, null);
+				unit = new Unit(item1, null, null);
 				unit.position = i;
 			}
 			array.add(unit);
