@@ -57,6 +57,7 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 			View v = LayoutInflater.from(getContext()).inflate(layoutId, null);
 			v.setId(i);
 			addView(v, param);
+			onCreateItemView(v, i);
 		}
 	}
 
@@ -74,6 +75,8 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 			setItem(cv, beans[i]);
 		}
 	}
+
+	protected abstract void onCreateItemView(View child, int position);
 
 	protected abstract void setItem(View v, T bean);
 

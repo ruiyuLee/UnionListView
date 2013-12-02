@@ -33,17 +33,19 @@ public class TwoUnionView extends UnionView<Bean> {
 	private void init() {
 		setPadding(4, 4, 4, 4);
 		setOrientation(LinearLayout.HORIZONTAL);
+
+	}
+
+	@Override
+	protected void onCreateItemView(View child, int position) {
+		ChildViewBuffer viewHolder = new ChildViewBuffer(child);
+		child.setTag(viewHolder);
 	}
 
 	@Override
 	protected void setItem(View v, Bean bean) {
-		ChildViewBuffer cv = null;
-		if (v.getTag() == null) {
-			cv = new ChildViewBuffer(v);
-			v.setTag(cv);
-		}
-		cv = (ChildViewBuffer) v.getTag();
-		cv.setItem(bean);
+		ChildViewBuffer viewHolder = (ChildViewBuffer) v.getTag();
+		viewHolder.setItem(bean);
 	}
 
 	private class ChildViewBuffer {
