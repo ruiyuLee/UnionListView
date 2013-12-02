@@ -42,7 +42,6 @@ public class TwoUnionAdapter extends UnionAdapter {
 		UnionView<Bean> unionView = new TwoUnionView(context);
 		unionView.setChildCount(3);
 		unionView.orderXmlItemView(R.layout.union_list_child_view);
-		unionView.setLoopMode(true);
 		unionView.registerClickableViews(R.id.Press, R.id.Close);
 		return unionView;
 	}
@@ -52,8 +51,7 @@ public class TwoUnionAdapter extends UnionAdapter {
 			ViewGroup parent) {
 		TwoUnionView tu = (TwoUnionView) convertView;
 		Unit unit = getItem(position);
-		tu.attachData(position, unit.Children[0], unit.Children[1],
-				unit.Children[2]);
+		tu.attachData(position, unit.Children);
 		return convertView;
 	}
 

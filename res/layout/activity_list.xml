@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F2F3"
+    android:background="#F0F0F0"
     android:orientation="vertical" >
 
     <TextView
@@ -11,13 +11,13 @@
         android:gravity="center"
         android:text="@string/Title" />
 
-<!--     <org.lee.android.widget.UnionView
+    <!-- <org.lee.android.widget.UnionView
         xmlns:org="http://schemas.android.com/apk/res/org.lee.android.simples.unionlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         org:childCount="2"
-        org:childView="@layout/union_list_item" /> -->
+        org:childView="@layout/union_list_child_view" /> -->
 
     <ListView
         android:id="@id/ListView"

@@ -1,6 +1,17 @@
 package org.lee.data.preset;
 
-public class ArrayData {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 为方便开发和测试中使用，预置数据。
+ * 
+ * @author ruiyuLee@hotmail.com
+ * 
+ */
+public class PresetData {
 	public static final String[] arraysString = { "AAA", "BBB", "CCC", "DDD",
 			"EEE", "FFF", "GGG", "HHH" };
 
@@ -16,4 +27,16 @@ public class ArrayData {
 			"http://a.hiphotos.baidu.com/image/w%3D1366%3Bcrop%3D0%2C0%2C1366%2C768/sign=a1758cf4b151f819f1250749ec82718e/1ad5ad6eddc451da19ac0634b7fd5266d1163292.jpg",
 			"http://c.hiphotos.baidu.com/image/h%3D768%3Bcrop%3D0%2C0%2C1366%2C768/sign=c3f6a1d65d6034a836e2ba87f3282a26/4a36acaf2edda3cc260a90f700e93901203f927e.jpg",
 			"http://c.hiphotos.baidu.com/image/w%3D1366%3Bcrop%3D0%2C0%2C1366%2C768/sign=070adf5a03087bf47dec53eac4e56c4f/d01373f082025aafbe909edafaedab64034f1a04.jpg" };
+
+	public static List<? extends Map<String, ?>> getArrayMap() {
+		List<HashMap<String, String>> arrayMap = new ArrayList<HashMap<String, String>>();
+		int length = arraysString.length;
+		for (int i = 0; i < length; i++) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("name", arraysString[i]);
+			arrayMap.add(map);
+		}
+		return arrayMap;
+	}
+
 }

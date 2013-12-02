@@ -15,7 +15,6 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 			LayoutParams.MATCH_PARENT);
 	private int mChildCount = 1;
 	protected int position;
-	private boolean mLoopMode = false;
 
 	public UnionView(Context context) {
 		super(context);
@@ -53,17 +52,6 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 		attachViews(childLayoutId);
 	}
 
-	/**
-	 * It's important,
-	 * 
-	 * @param loop
-	 *            It must be true, if your item view has more(2+) child views,
-	 *            and the are same. Default false.
-	 */
-	public void setLoopMode(boolean loop) {
-		mLoopMode = loop;
-	}
-
 	private void attachViews(int layoutId) {
 		for (int i = 0; i < mChildCount; i++) {
 			View v = LayoutInflater.from(getContext()).inflate(layoutId, null);
@@ -72,7 +60,7 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 		}
 	}
 
-	public void attachData(int position, T... beans) {
+	public void attachData(int position, T[] beans) {
 		this.position = position;
 
 		int length = beans.length;
@@ -107,44 +95,26 @@ public abstract class UnionView<T extends Object> extends LinearLayout {
 		if (mViewsIds == null) {
 			return false;
 		}
-		if (mLoopMode) {
-			int childCount = getChildCount();
-			for (int i = 0; i < childCount; i++) {
-				View loopView = getChildAt(i);
-				attachEventToView(loopView, i);
-			}
-		} else {
-			attachEventToView(this, 0);
+		int childCount = getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			View loopView = getChildAt(i);
+			attachEventToView(loopView, i);
 		}
 		return true;
 	}
 
 	private void attachEventToView(View view, int childPosition) {
 		int length = mViewsIds.length;
-		if (mLoopMode && length > 1) {
-			for (int j = 0; j < length; j++) {
-				View v = view.findViewById(mViewsIds[j]);
-				if (v == null) {
-					throw new Resources.NotFoundException(
-							"Error: No resource found that matches the given name (at 'id' with value '"
-									+ mViewsIds[j] + "').");
-				}
-				PositionInfo pi = new PositionInfo(childPosition, j);
-				v.setTag(v.getId(), pi);
-				v.setOnClickListener(ClickEvent);
+		for (int j = 0; j < length; j++) {
+			View v = view.findViewById(mViewsIds[j]);
+			if (v == null) {
+				throw new Resources.NotFoundException(
+						"Error: No resource found that matches the given name (at 'id' with value '"
+								+ mViewsIds[j] + "').");
 			}
-		} else {
-			for (int j = 0; j < length; j++) {
-				View v = view.findViewById(mViewsIds[j]);
-				if (v == null) {
-					throw new Resources.NotFoundException(
-							"Error: No resource found that matches the given name (at 'id' with value '"
-									+ mViewsIds[j] + "').");
-				}
-				PositionInfo pi = new PositionInfo(childPosition, -1);
-				v.setTag(v.getId(), pi);
-				v.setOnClickListener(ClickEvent);
-			}
+			PositionInfo pi = new PositionInfo(childPosition, j);
+			v.setTag(v.getId(), pi);
+			v.setOnClickListener(ClickEvent);
 		}
 	}
 

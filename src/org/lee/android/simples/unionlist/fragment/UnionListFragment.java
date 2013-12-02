@@ -8,7 +8,7 @@ import org.lee.android.simples.unionlist.mode.Unit;
 import org.lee.android.simples.unionlist.view.TwoUnionAdapter;
 import org.lee.android.utils.Log;
 import org.lee.android.widget.UnionAdapter.OnItemChildClickListener;
-import org.lee.data.preset.ArrayData;
+import org.lee.data.preset.PresetData;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class UnionListFragment extends Fragment {
 
@@ -64,21 +65,21 @@ public class UnionListFragment extends Fragment {
 
 	private ArrayList<Unit> getData() {
 		String title = getResources().getString(R.string.Title);
-		int length = ArrayData.arraysUrls.length - 1;
+		int length = PresetData.arraysUrls.length - 1;
 		ArrayList<Unit> array = new ArrayList<Unit>(length);
 		int num = 0;
 		for (int i = 0; i < length; i++) {
 			if (num >= length) {
 				break;
 			}
-			String url = ArrayData.arraysUrls[num++];
+			String url = PresetData.arraysUrls[num++];
 			Unit unit;
 			if (i % 3 == 2) {
 				Bean item1 = new Bean(title, "46万+", url);
 				Bean item2 = new Bean(title, "52万+",
-						ArrayData.arraysUrls[num++]);
+						PresetData.arraysUrls[num++]);
 				Bean item3 = new Bean(title, "76万+",
-						ArrayData.arraysUrls[num++]);
+						PresetData.arraysUrls[num++]);
 				unit = new Unit(item1, item2, item3);
 				unit.position = i;
 			} else {
