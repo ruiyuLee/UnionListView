@@ -7,11 +7,16 @@ import org.lee.android.widget.UnionView;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageListener;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.ImageLoader.ImageContainer;
 
 public class TwoUnionView extends UnionView<Bean> {
 
@@ -54,12 +59,30 @@ public class TwoUnionView extends UnionView<Bean> {
 		private TextView mTitleText;
 		private TextView mNumText;
 		private Bean mItem;
+		private ImageLoader iImageLoader;
+		private ImageListener iImageListener;
 
 		ChildViewBuffer(View v) {
 			mImageView = (NetworkImageView) v.findViewById(R.id.ImageView);
 			mImageView.setErrorImageResId(R.drawable.logo);
 			mTitleText = (TextView) v.findViewById(R.id.Title);
 			mNumText = (TextView) v.findViewById(R.id.Num);
+			iImageLoader = VolleyLoader.getInstance().getImageLoader();
+			iImageListener = new ImageListener() {
+
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					Log.d("TAG", "onErrorResponse():" + error);
+
+				}
+
+				@Override
+				public void onResponse(ImageContainer response,
+						boolean isImmediate) {
+					Log.d("TAG", "onResponse():" + isImmediate);
+
+				}
+			};
 		}
 
 		public void setItem(Bean item) {
@@ -68,12 +91,11 @@ public class TwoUnionView extends UnionView<Bean> {
 		}
 
 		private void attachToView() {
-			mImageView.setImageUrl(mItem.Url, VolleyLoader.getInstance()
-					.getImageLoader());
+			iImageLoader.get(mItem.Url, iImageListener);
+			mImageView.setImageUrl(mItem.Url, iImageLoader);
 			mTitleText.setText(mItem.Title);
 			mNumText.setText(mItem.Num);
 		}
-
 	}
 
 }
