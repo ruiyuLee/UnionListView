@@ -111,7 +111,7 @@ mAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
 
 I’m a young, enthusiastic developer from China.
 
-* E-mail: [ruiyuLee@hotmail.com](mailto:ruiyuLee@hotmail.com)
+* E-mail: [allnet@live.cn](mailto:allnet@live.cn)
 
 * Blog: http://www.woolom.com
 
